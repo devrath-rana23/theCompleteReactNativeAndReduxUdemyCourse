@@ -101,6 +101,10 @@ const HomeScreen = ({ navigation }) => {
           title='Go to List Demo'
           onPress={() => navigation.navigate('List')}
         />
+        <Button
+          title='Go to Image Demo'
+          onPress={() => navigation.navigate('Image')}
+        />
         {/* In TouchableOpacity you will notice that when yu press on it for brief moment it will fade out thus such name as TouchableOpacity */}
         {/* <TouchableOpacity
           onPress={() => props.navigation.navigate('List')}

@@ -4,16 +4,19 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const ComponentsScreen = () => {
 
   const name = 'Devrath';
 
   return (
-    <View>
-      <Text style={styles.heading}>Getting started with React Native!</Text>
-      <Text style={styles.content}>My name is {name}</Text>
-    </View>
+    <SafeAreaProvider>
+      <View>
+        <Text style={styles.heading}>Getting started with React Native!</Text>
+        <Text style={styles.content}>My name is {name}</Text>
+      </View>
+    </SafeAreaProvider>
   );
 
 }
