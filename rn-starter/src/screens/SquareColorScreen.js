@@ -17,11 +17,11 @@ const SquareColorScreen = () => {
         // change === '+10', '-10'
 
         if (color === 'red') {
-            if (red + change <= 255 || red + change >= 0) setRed(red + change);
+            if ((red + change) <= 255 && (red + change) >= 0) setRed(red + change);
         } else if (color === 'green') {
-            if (green + change <= 255 || green + change >= 0) setGreen(green + change);
+            if ((green + change) <= 255 && (green + change) >= 0) setGreen(green + change);
         } else if (color === 'blue') {
-            if (blue + change <= 255 || blue + change >= 0) setBlue(blue + change);
+            if ((blue + change) <= 255 && (blue + change) >= 0) setBlue(blue + change);
         }
 
     };
@@ -34,19 +34,19 @@ const SquareColorScreen = () => {
                 style={styles.body}>
                 <ColorCounter
                     color='Red'
-                    onIncrease={setColor('red', +10)}
-                    onDecrease={setColor('red', -10)
+                    onIncrease={() => setColor('red', +COLOR_COUNTER_CHANGE_VALUE)}
+                    onDecrease={() => setColor('red', -COLOR_COUNTER_CHANGE_VALUE)
                     }
                 />
                 <ColorCounter
                     color='Green'
-                    onIncrease={setColor('green', +10)}
-                    onDecrease={setColor('green', -10)}
+                    onIncrease={() => setColor('green', +COLOR_COUNTER_CHANGE_VALUE)}
+                    onDecrease={() => setColor('green', -COLOR_COUNTER_CHANGE_VALUE)}
                 />
                 <ColorCounter
                     color='Blue'
-                    onIncrease={setColor('blue', +10)}
-                    onDecrease={setColor('blue', -10)}
+                    onIncrease={() => setColor('blue', +COLOR_COUNTER_CHANGE_VALUE)}
+                    onDecrease={() => setColor('blue', -COLOR_COUNTER_CHANGE_VALUE)}
                 />
                 <View style={{ height: 100, width: 100, backgroundColor: `rgb(${red},${green},${blue})` }} //double {{}} means outer set reference to some javascript expression and inner set creates an object literal 
                 />
