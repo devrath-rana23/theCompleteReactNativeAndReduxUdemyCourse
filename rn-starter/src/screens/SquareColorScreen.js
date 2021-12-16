@@ -5,9 +5,26 @@ import ColorCounter from '../components/ColorCounter';
 
 const SquareColorScreen = () => {
 
+    const COLOR_COUNTER_CHANGE_VALUE = 10;
+
     const [red, setRed] = useState(0);
     const [green, setGreen] = useState(0);
     const [blue, setBlue] = useState(0);
+
+    const setColor = (color, change) => {
+
+        // color === 'red', 'green', 'blue'
+        // change === '+10', '-10'
+
+        if (color === 'red') {
+            if (red + change <= 255 || red + change >= 0) setRed(red + change);
+        } else if (color === 'green') {
+            if (green + change <= 255 || green + change >= 0) setGreen(green + change);
+        } else if (color === 'blue') {
+            if (blue + change <= 255 || blue + change >= 0) setBlue(blue + change);
+        }
+
+    };
 
     console.log(`Red-${red},Green-${green},Blue-${blue}`);
 
@@ -17,50 +34,22 @@ const SquareColorScreen = () => {
                 style={styles.body}>
                 <ColorCounter
                     color='Red'
-                    onIncrease={() => {
-                        if (red <= 255 && red >= 0 && red !== 255) {
-                            setRed(red + 1);
-                        }
-                    }
-                    }
-                    onDecrease={() => {
-                        if (red <= 255 && red >= 0 && red !== 0) {
-                            setRed(red - 1);
-                        }
-                    }
+                    onIncrease={setColor('red', +10)}
+                    onDecrease={setColor('red', -10)
                     }
                 />
                 <ColorCounter
                     color='Green'
-                    onIncrease={() => {
-                        if (green <= 255 && green >= 0 && green !== 255) {
-                            setGreen(green + 1);
-                        }
-                    }
-                    }
-                    onDecrease={() => {
-                        if (green <= 255 && green >= 0 && green !== 0) {
-                            setGreen(green - 1);
-                        }
-                    }
-                    }
+                    onIncrease={setColor('green', +10)}
+                    onDecrease={setColor('green', -10)}
                 />
                 <ColorCounter
                     color='Blue'
-                    onIncrease={() => {
-                        if (blue <= 255 && blue >= 0 && blue !== 255) {
-                            setBlue(blue + 1);
-                        }
-                    }
-                    }
-                    onDecrease={() => {
-                        if (blue <= 255 && blue >= 0 && blue !== 0) {
-                            setBlue(blue - 1);
-                        }
-                    }
-                    }
+                    onIncrease={setColor('blue', +10)}
+                    onDecrease={setColor('blue', -10)}
                 />
-                <View style={{ height: 100, width: 100, backgroundColor: `rgb(${red},${green},${blue})` }} />
+                <View style={{ height: 100, width: 100, backgroundColor: `rgb(${red},${green},${blue})` }} //double {{}} means outer set reference to some javascript expression and inner set creates an object literal 
+                />
             </View>
         </SafeAreaProvider>
     );
