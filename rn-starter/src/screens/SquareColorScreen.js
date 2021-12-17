@@ -12,6 +12,8 @@ const COLOR_INCREMENT = 10;
 
 // Here we are using reducer instead of setter of useState hook.
 
+//Here alias for action object can be howToChangeState
+
 const reducer = (state, action) => {
 
     //state === { red: number, green: number, blue: number }
