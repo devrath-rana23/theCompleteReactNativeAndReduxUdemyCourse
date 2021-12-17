@@ -8,8 +8,10 @@ const COLOR_INCREMENT = 10;
 // Technically reducer function can be declared inside our functional component but we define it outside our component and reason is that as in drawio reducers diagram Argument #1 , is our state object have all our different states. If we define reducer function inside of SquareColorScreen, we will want to refer to that first argument right there as state, because that is going to be our state object. But if we have that argument right there that's called state, it'll be very confused with this other declaration of state over here. Now technically this would not result an error but it will be very confusing.
 // Here action argument tells us how to change our state object
 
-//This function will always return a state object for any case no matter how many times it's called
+//This function will always return a state object for any case no matter how many times it's called and if we don't return anything the state object will have value undefined when functional component re-renders the screen.
+
 // Here we are using reducer instead of setter of useState hook.
+
 const reducer = (state, action) => {
 
     //state === { red: number, green: number, blue: number }
@@ -19,17 +21,31 @@ const reducer = (state, action) => {
         case 'red':
             // Never going to do: state.red=state.red+15 
             // To make changes to our state object we are going to rebuild our state object from scratch into a new object but the new object will have the changed value for red that we want
+            // return { ...state, red: state.red + action.amount };//here in this new object copied the state object using ...state and override it's red property value.Here not directly change our state object but creating new object entirely.
+            /**
+             * we have=> {red: 0, green: 0, blue: 0 , red: state.red + action.amount }
+             * red gets override now we have=>
+             * {green: 0, blue: 0 , red: state.red + action.amount }
+             */
 
-            return { ...state, red: state.red + action.amount };//here in this new object copied the state object using ...state and override it's red property value.Here not directly change our state object but creating new object entirely.
-        /**
-         * we have=> {red: 0, green: 0, blue: 0 , red: state.red + action.amount }
-         * red gets override now we have=>
-         * {green: 0, blue: 0 , red: state.red + action.amount }
-         */
+            return state.red + action.amount > 255 || state.red + action.amount < 0
+                ?
+                state
+                :
+                { ...state, red: state.red + action.amount };
+        case 'green':
+            return state.green + action.amount > 255 || state.green + action.amount < 0
+                ?
+                state
+                :
+                { ...state, green: state.green + action.amount };
 
-        case 'green': return { ...state, green: state.green + action.amount };
-
-        case 'blue': return { ...state, blue: state.blue + action.amount };
+        case 'blue':
+            return state.blue + action.amount > 255 || state.blue + action.amount < 0
+                ?
+                state
+                :
+                { ...state, blue: state.blue + action.amount };
 
         default:
             return state;//this means we didn't make any changes to our state object and returned it as it is.
