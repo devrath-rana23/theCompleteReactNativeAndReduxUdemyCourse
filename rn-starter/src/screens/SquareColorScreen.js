@@ -1,40 +1,57 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';//useReducer is hook function that adds functionality to use a reducer in our functional component
 import { View, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ColorCounter from '../components/ColorCounter';
 
+const COLOR_INCREMENT = 10;
+
+// Technically reducer function can be declared inside our functional component but we define it outside our component and reason is that as in drawio reducers diagram Argument #1 , is our state object have all our different states. If we define reducer function inside of SquareColorScreen, we will want to refer to that first argument right there as state, because that is going to be our state object. But if we have that argument right there that's called state, it'll be very confused with this other declaration of state over here. Now technically this would not result an error but it will be very confusing.
+// Here action argument tells us how to change our state object
+
+//This function will always return a state object for any case no matter how many times it's called
+// Here we are using reducer instead of setter of useState hook.
+const reducer = (state, action) => {
+
+    //state === { red: number, green: number, blue: number }
+    // action === { colorToChange: 'red' || 'green' || 'blue', amount: 10 || -10 }
+
+    switch (action.colorToChange) {
+        case 'red':
+            // Never going to do: state.red=state.red+15 
+            // To make changes to our state object we are going to rebuild our state object from scratch into a new object but the new object will have the changed value for red that we want
+
+            return { ...state, red: state.red + action.amount };//here in this new object copied the state object using ...state and override it's red property value.Here not directly change our state object but creating new object entirely.
+        /**
+         * we have=> {red: 0, green: 0, blue: 0 , red: state.red + action.amount }
+         * red gets override now we have=>
+         * {green: 0, blue: 0 , red: state.red + action.amount }
+         */
+
+        case 'green': return { ...state, green: state.green + action.amount };
+
+        case 'blue': return { ...state, blue: state.blue + action.amount };
+
+        default:
+            return state;//this means we didn't make any changes to our state object and returned it as it is.
+    }
+
+};
+
 const SquareColorScreen = () => {
 
-    const COLOR_COUNTER_CHANGE_VALUE = 10;
+    // syntax similar to useState, here reducer is a function and second argument is default value of our state objects. Here state will initially equal to default state objrct=>{ red: 0, green: 0, blue: 0 }. So, state variable is going to essentially be how we access our different state values, so before we had three different values floating around of red, green and blue, now instead they are all combined into this one single object=>  state. 
 
-    const [red, setRed] = useState(0);
-    const [green, setGreen] = useState(0);
-    const [blue, setBlue] = useState(0);
+    //whenever our state object changes because of reducer function the entire component re renders similar to in case of useState()
 
-    const setColor = (color, change) => {
+    //How do we call the reducer and make change to our state object=> that's the job of dispatch function => alias for dispatch could be runMyReducer in which we will pass parameter which can be used as action argument in our reducer function
 
-        // color === 'red', 'green', 'blue'
-        // change === '+10', '-10'
+    // const [state, runMyReducer] = useReducer(reducer, { red: 0, green: 0, blue: 0 });
+    // We write dispatch by convention which you can consider as runMyReducer
 
-        switch (color) {
-
-            case 'red':
-                (((red + change) <= 255) && ((red + change) >= 0)) ? setRed(red + change) : '';
-                return;//terminate with this each case so that it does not run other cases
-            case 'green':
-                (((green + change) <= 255) && ((green + change) >= 0)) ? setGreen(green + change) : '';
-                return;
-            case 'blue':
-                (((blue + change) <= 255) && ((blue + change) >= 0)) ? setBlue(blue + change) : '';
-                return;
-            default:
-                return;
-
-        }
-
-    };
-
-    console.log(`Red-${red},Green-${green},Blue-${blue}`);
+    const [state, dispatch] = useReducer(reducer, { red: 0, green: 0, blue: 0 });
+    const { red, green, blue } = state;
+    console.log(state);
+    console.log(`rgb(${red},${green},${blue})`);
 
     return (
         <SafeAreaProvider>
@@ -42,21 +59,23 @@ const SquareColorScreen = () => {
                 style={styles.body}>
                 <ColorCounter
                     color='Red'
-                    onIncrease={() => setColor('red', COLOR_COUNTER_CHANGE_VALUE)}
-                    onDecrease={() => setColor('red', -1 * COLOR_COUNTER_CHANGE_VALUE)
-                    }
+                    onIncrease={() => dispatch({ colorToChange: 'red', amount: COLOR_INCREMENT })}
+                    onDecrease={() => dispatch({ colorToChange: 'red', amount: -1 * COLOR_INCREMENT })}
                 />
                 <ColorCounter
                     color='Green'
-                    onIncrease={() => setColor('green', COLOR_COUNTER_CHANGE_VALUE)}
-                    onDecrease={() => setColor('green', -1 * COLOR_COUNTER_CHANGE_VALUE)}
+                    onIncrease={() => dispatch({ colorToChange: 'green', amount: COLOR_INCREMENT })}
+                    onDecrease={() => dispatch({ colorToChange: 'green', amount: -1 * COLOR_INCREMENT })}
                 />
                 <ColorCounter
                     color='Blue'
-                    onIncrease={() => setColor('blue', COLOR_COUNTER_CHANGE_VALUE)}
-                    onDecrease={() => setColor('blue', -1 * COLOR_COUNTER_CHANGE_VALUE)}
+                    onIncrease={() => dispatch({ colorToChange: 'blue', amount: COLOR_INCREMENT })}
+                    onDecrease={() => dispatch({ colorToChange: 'blue', amount: -1 * COLOR_INCREMENT })}
                 />
-                <View style={{ height: 100, width: 100, backgroundColor: `rgb(${red},${green},${blue})` }} //double {{}} means outer set reference to some javascript expression and inner set creates an object literal 
+
+                {/* <View style={{ height: 100, width: 100, backgroundColor: `rgb(${state.red},${state.green},${state.blue})` }} //We can destructure state to const {red,green,blue}=state above and print red green blue individually. */}
+
+                <View style={{ height: 100, width: 100, backgroundColor: `rgb(${red},${green},${blue})` }}
                 />
             </View>
         </SafeAreaProvider>
