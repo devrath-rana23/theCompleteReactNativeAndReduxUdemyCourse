@@ -6,17 +6,24 @@ const COUNTER_INCREMENT = 1;
 
 const reducer = (state, action) => {
     //state==={counter:0}
-    //action==={type:'change_counter', payload:1||-1}
+    //action==={type:'increment'||'decrement', payload:1}
 
     console.log(action);
     switch (action.type) {
 
-        case 'change_counter':
+        case 'increment':
             return state.counter + action.payload < 0
                 ?
                 state
                 :
                 { ...state, counter: state.counter + action.payload };
+
+        case 'decrement':
+            return state.counter - action.payload < 0
+                ?
+                state
+                :
+                { ...state, counter: state.counter - action.payload };
 
         default:
             return state;
@@ -36,13 +43,13 @@ const CounterScreen = () => {
             <View style={styles.body}>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => dispatch({ type: 'change_counter', payload: COUNTER_INCREMENT })}
+                    onPress={() => dispatch({ type: 'increment', payload: COUNTER_INCREMENT })}
                 >
                     <Text style={styles.buttonTitle}>Increase</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => dispatch({ type: 'change_counter', payload: -1 * COUNTER_INCREMENT })}
+                    onPress={() => dispatch({ type: 'decrement', payload: COUNTER_INCREMENT })}
                 >
                     <Text style={styles.buttonTitle}>Decrease</Text>
                 </TouchableOpacity>

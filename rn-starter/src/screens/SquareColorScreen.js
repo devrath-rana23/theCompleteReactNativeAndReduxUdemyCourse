@@ -39,7 +39,7 @@ const reducer = (state, action) => {
 
 const SquareColorScreen = () => {
 
-    const [state, dispatch] = useReducer(reducer, { red: 0, green: 0, blue: 0 });
+    const [state, dispatch] = useReducer(reducer, { red: 0, green: 0, blue: 0 });//second argument of useReducer can be array or simply sa string nstead of object but generally it is object
     const { red, green, blue } = state;
     console.log(state);
     console.log(`rgb(${red},${green},${blue})`);
