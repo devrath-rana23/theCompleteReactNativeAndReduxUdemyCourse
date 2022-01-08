@@ -1,3 +1,5 @@
+# TO kill srver in nodejs=> lsof -i tcp:<PORT> then   kill -9 <process-id>
+
 # npm init -y
 # npm install bcrypt express jsonwebtoken mongoose nodemon
 # node src/index.js
