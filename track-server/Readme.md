@@ -14,5 +14,6 @@ Now behind the scenes there is not actually an array of objects.
 A very different storage mechanism is used in MongoDB.Nonetheless we can kind of imagine that is what is happening
 But to work with that data in our MongoDB we are going to use the "library" called "Mongoose". When we install Mongoose we need to instruct it about different data we've stored inside of Mongo DB So we have to do a little bit of configuration with Mongoose before we ever work with Mongo. Specifically we need to tell Mongoose thate there is a users collection and we will essentially do that by creating a user's model.And use that user's model to manipulate everything inside our user's collection
 
+# YOU have to create a sample database in mongo db from ui before creating new one using code in index.js
 ####
 
