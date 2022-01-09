@@ -1,0 +1,346 @@
+# React Navigation design for this App transcript
+All right, my friends, regardless of whether you went through the Express API set up with me or you
+
+went through the set up in the last video, at this point you should have a track server directory and
+
+you should be able to run and run Dev inside there and not see any error message appear.
+
+So if you're getting an error, well, we need to do a little bit of troubleshooting because he won't
+
+be able to work on our next application.
+
+Speaking of which, let's start to generate our New York native project for our next application, which
+
+remember is still going to be this kind of track thing that we discussed previously.
+
+So to generate a new project, I'm going to open up a new terminal window.
+
+I'm going to go back to a workspace directory of sorts.
+
+And then inside of here, we'll do an expo Seelie in it.
+
+And then the name of our project, which I'm going to call simply tracks.
+
+So, as usual, we asked to select a template.
+
+I'm going to go blank and then we'll put in a name for our app as well.
+
+We'll just put Interex.
+
+OK, so it's going to start the installation process while that's going, I want to start to have a
+
+quick discussion about the design of our application.
+
+So we already took a look at all these different mockups.
+
+I'm not going to make you listen to me talk about them again.
+
+But basically, just remember, we're going have a collection of different screens that we're trying
+
+to show the user.
+
+I want to think about how we're going to connect all these different screens together.
+
+So in total, these are all the different screens I expect that we're going to have.
+
+We've got the authentication screens.
+
+We've got something to list out all the different tracks that have been created, a screen to focus
+
+in on one track that the user has created, another one to create a track and finally an account management
+
+screen where I use it and basically just log out.
+
+So I want to start to think about how all these different screens are related or connected together.
+
+First off, I think we can make a very logical separation between the authentication screens and the
+
+not authentication screens, so if a user is not signed in, we definitely want them to only be able
+
+to see the sign up screen or the sign and screen and to be able to easily navigate between the two of
+
+them.
+
+Looking back at the up over here, remember, we want to have some blue techs down at the bottom that
+
+tells the user if you don't have an account, then tap that link right there and go to the sign and
+
+screen.
+
+And if they go there and then realize that they don't have an account, well, of course they should
+
+able to navigate back to sign up.
+
+So without a doubt, we definitely want to have a very close link between those two screens, but they
+
+are definitely 100 percent separate from everything else.
+
+Now, to start to think about how to wire up all these different screens, I want to give you some more
+
+detail on the REACT Navigation Library, which we've used several times throughout this course.
+
+OK, so throughout this course, we've been making use of that Stack Navigator thing, that Stock Navigator
+
+object is something provided by Riak native or some Riak navigation that makes it really easy to go
+
+like back and forth between different screens.
+
+So that's a very classic interaction of going back and forth.
+
+Any time we kind of navigate to another screen.
+
+Remember the header automatically updated and showed a little button inside the header that a user could
+
+press to go back to the previous screen.
+
+It turns out that there are several other navigators that are available to us that we can use for other
+
+forms of common types of navigation, you can find the full list of these different navigators at the
+
+API reference.
+
+There's a link to it right there.
+
+Some of the other navigators that might be useful inside of our application are the bottom top navigator.
+
+If we make use of that, it's going to show a collection of different screens that are tied together
+
+with a Tabbaa that is going to be displayed at the bottom of the user's device.
+
+So we've kind of got something very similar to that on these screens over here.
+
+Take note that down here at the bottom, we want to show that kind of bottom tabbaa where we have links
+
+to all of our different screens and probably show like an icon above each one or something like that.
+
+So I think that the bottom top navigator might be really useful inside of our application.
+
+We've also got access to something called a switch navigator, a switch navigator is used for very abrupt
+
+switching between different screens.
+
+So whenever we make use of switch navigator, it's usually to switch between abruptly or significantly
+
+different flows of screens, so to speak.
+
+So a good use or example of where we would use this switch navigator is when a user signs up, whenever
+
+a user signs up, we're going to take them from either the sign up or sign in screen to probably our
+
+tracklist screen or maybe the create one.
+
+So that transition, once a user signs into our application, should be very abrupt.
+
+We don't really need a animation there and we don't really need the ability to have a user to be able
+
+to go very easily back to the sign up or sign in screens.
+
+So going from the not authenticated pages to the authenticated pages might be a pretty good use of the
+
+switch navigator.
+
+And then finally, we've got something called the draw navigator.
+
+We're not going to use this inside of this application, but this will show a very classic kind of fly
+
+out menu from the side of the device, either the left hand or right hand side.
+
+And inside that fly out window, there will be a list of different links to the user can tap to go to
+
+some different screens.
+
+It's now that we understand some of the different navigator's that exist with Riak navigation, I want
+
+to understand how we can kind of assemble some of these different things together to really achieve
+
+the flow that we expect a user to have inside of application.
+
+Remember, we have some very different methods of navigation or kind of interactions going on between
+
+sign up and sign in.
+
+We want a very smooth back and forth flow.
+
+Once the user signs in, we want a very abrupt flow.
+
+And once a user gets over to this grouping of screens, we want to have that bottom Tabbaa, but we're
+
+not going to have a link on that bottom Tabbaa.
+
+For all four of these screens, we only have links for three of them.
+
+The tracklist screen create an account.
+
+Remember back over here, the tracklist screen, that's this one right here.
+
+The create button will go to the screen and the account screen will go to the well account screen.
+
+So the track detail is kind of an oddity.
+
+Inside of here.
+
+We can only navigate two track detail if the user first goes to tracklist and then taps on one of these
+
+entries.
+
+So even though we might be able to make use of that bottom Tabbaa navigator, it's kind of clear that
+
+we might have to have some other kind of like form of navigation to get a user to toggle between these
+
+different two screens.
+
+In particular, notice how we definitely want to show the header with the classic back button inside
+
+there.
+
+So once again, I think it's kind of clear that we need to use a combination of these different navigator's
+
+together to really achieve the flow that you and I are looking for.
+
+So with that in mind, we're going to go through kind of a iterative design process right now and we're
+
+going to think about how we're going to join together all these different screens with a collection
+
+of different navigator's now teaching how to use these different navigator's is kind of challenging.
+
+It's one of those things where you really just got to get hands on at some point and do it for yourself.
+
+So I'm going to show you how I kind of think through this entire process and how I would use these different
+
+navigator's to wired together these different screens in some particular fashion.
+
+So here's what I'm going to do.
+
+First off, I'm going to delete those brackets on the left hand side, and then I'm going to use a little
+
+green box to kind of join together or signify the different screens that I want to hook up together
+
+and what navigator I want to use to join them together.
+
+So let's look at an easy example of this.
+
+First off, as they sign up inside and screens, as we just discussed, we want those to have a very
+
+classic kind of tapdance button and go over to this page, tap this button, go over to this page.
+
+So it really is kind of a back and forth flow.
+
+You go forward to sign in or back to sign up.
+
+We don't really have a header on there with the classic back button.
+
+But regardless, the interaction is just about identical.
+
+It's go for design and go back to sign up, back and forth between those two screens.
+
+So with that in mind, I think that we could very easily join those two screens together by using a
+
+Stack Navigator that will give us that classic back and forth navigation.
+
+OK, let's now go down to another easy example, so as we just saw, the tracklist screen and track
+
+detail screen are going to have a very similar back and forth navigation style.
+
+You tap on this thing right here.
+
+You go forward to the detailed screen and then the header updates and you see the back button.
+
+If you press back, you go back to the tracklist screen.
+
+So I think that the relationship between those two screens is also going to be the Astatke navigator.
+
+So I'm going to dignify that by pulling the detailed screen over here.
+
+I'm going to join them together with a little arrow and I'll put the Stack Navigator down there as well.
+
+Next up, the relationship between tracklist create and account screen, that's definitely going to
+
+be an instance of that bottom tab navigator.
+
+We want to show the tabs at the bottom with the different buttons that a user can press to instantly
+
+change between these different screens.
+
+So I think that these three screens right here should be related with the bottom tab navigator.
+
+So I'm going to put another green bar over here.
+
+And resize this slightly like so, and I'll say these three screens will be joined together with the
+
+Bottom Tab Navigator.
+
+And I'll just kind of do a little bit of formatting here just to keep this kind of looking nice.
+
+OK, now the last thing we need is some way to change between the outflow and this entire not outflow
+
+down here, like the actual core interaction of our application.
+
+So once again, any time that we are navigating between those two groups, we probably want to have
+
+kind of like an abrupt cut over to the north or offload.
+
+So for that, I think would be a good use of the switch navigator and only essentially say the instant
+
+you're navigated, we're just going to instantly cut to a different grouping of screens and show those
+
+to the user.
+
+And we're always showing either the flow or the not outflow.
+
+So, again, that'd be a good use case for the switch navigator.
+
+So to reflect that, I'm going to pull these over here just a little bit.
+
+But another green bar that joins these two.
+
+And I'm going to say that this thing, these two different groups of screens are going to be joined
+
+together with a switch navigator.
+
+And that's pretty much it.
+
+So that's how we're going to hook up navigation inside of our application.
+
+We're going to use all these different navigators to get our intended.
+
+You flow our intended user experience flow between all these different screens.
+
+Now, like I said, kind of teaching this and giving you a foolproof process of how to go through this
+
+kind of difficult.
+
+Nonetheless, this is what we eventually want to start to think about when we're thinking about these
+
+kind of complicated interactions.
+
+We want to try to leverage reac navigation as much as possible and these different navigators to kind
+
+of stitch together these different screens in some desired fashion.
+
+All right, so now that we've got some idea of how we're going to approach this design and hopefully
+
+once our react native application has been generated, let's take a quick pause right here.
+
+When we come back, the next video, we're going to install Riak navigation, get our app up and running,
+
+and then start creating all these different screens and starting to implement this navigation flow between
+
+them.
+
+So quick pause and I'll see you in just a minute.
+
+###
+
+# React Navigation outdated version for current application
+
+npm install react-navigation --legacy-peer-deps
+
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+
+npm install react-navigation-stack @react-native-community/masked-view --legacy-peer-deps
+
+npm install react-navigation-tabs --legacy-peer-deps
+
+expo r -c
+
+###
