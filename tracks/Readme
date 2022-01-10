@@ -333,6 +333,8 @@ So quick pause and I'll see you in just a minute.
 
 # React Navigation outdated version for current application
 
+npx expo-cli init tracks --npm
+
 npm install react-navigation --legacy-peer-deps
 
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
@@ -343,4 +345,19 @@ npm install react-navigation-tabs --legacy-peer-deps
 
 expo r -c
 
+in babel.config.js=>
+
+module.exports = function(api) {
+  api.cache(true);
+  return {
+    presets: ['babel-preset-expo'],
+    plugins: ['react-native-reanimated/plugin'],
+  };
+};
+
+stop metro then enter below command
+
+expo start --clear
+
+Refer https://docs.expo.dev/versions/latest/sdk/reanimated/#installation for above steps
 ###
