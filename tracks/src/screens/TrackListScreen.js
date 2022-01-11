@@ -1,14 +1,21 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const TrackListScreen = () => {
-    return (
-        <View>
-            <Text>TrackListScreen</Text>
-        </View>
-    );
+const TrackListScreen = ({ navigaton }) => {
+  return (
+    <SafeAreaView>
+      <View>
+        <Text>TrackListScreen</Text>
+        <Button
+          title="Go to Track detail"
+          onPress={() => navigaton.navigate("TrackDetail")}
+        />
+      </View>
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({});
 
-export default TrackListScreen
+export default TrackListScreen;

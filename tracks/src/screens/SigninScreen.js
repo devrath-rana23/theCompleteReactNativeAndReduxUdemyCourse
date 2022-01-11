@@ -1,12 +1,15 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const SigninScreen = () => {
-    return (
-        <View>
-            <Text>SigninScreen</Text>
-        </View>
-    );
+  return (
+    <SafeAreaView>
+      <View>
+        <Text>SigninScreen</Text>
+      </View>
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({});
