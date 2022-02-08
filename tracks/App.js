@@ -8,6 +8,8 @@ import SignupScreen from "./src/screens/SignupScreen";
 import TrackCreateScreen from "./src/screens/TrackCreateScreen";
 import TrackDetailScreen from "./src/screens/TrackDetailScreen";
 import TrackListScreen from "./src/screens/TrackListScreen";
+import { Provider as AuthProvider } from "./src/context/AuthContext";
+import { setNavigator } from "./src/navigationRef";
 
 // We will have two types of screens one type for authentication and other type is non authentication which are rest of the screen except login and signup therefore since login and signup represents different flow from rest of the screens so their initial letter is lowercase to showcase two different flows
 
@@ -26,4 +28,12 @@ const switchNavigator = createSwitchNavigator({
   }),
 });
 
-export default createAppContainer(switchNavigator);
+const App = createAppContainer(switchNavigator);
+// setNavigator() is kind of hook called inside our component that allows us to navigate around
+export default () => {
+  return (
+    <AuthProvider>
+      <App ref={(navigator) => setNavigator(navigator)} />
+    </AuthProvider>
+  );
+};

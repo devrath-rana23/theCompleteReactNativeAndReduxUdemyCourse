@@ -1,4 +1,5 @@
 # React Navigation design for this App transcript
+
 All right, my friends, regardless of whether you went through the Express API set up with me or you
 
 went through the set up in the last video, at this point you should have a track server directory and
@@ -348,11 +349,11 @@ expo r -c
 in babel.config.js=>
 
 module.exports = function(api) {
-  api.cache(true);
-  return {
-    presets: ['babel-preset-expo'],
-    plugins: ['react-native-reanimated/plugin'],
-  };
+api.cache(true);
+return {
+presets: ['babel-preset-expo'],
+plugins: ['react-native-reanimated/plugin'],
+};
 };
 
 stop metro then enter below command
@@ -360,4 +361,10 @@ stop metro then enter below command
 expo start --clear
 
 Refer https://docs.expo.dev/versions/latest/sdk/reanimated/#installation for above steps
+
 ###
+
+### Why we use Asyncstorage for storing jwt
+
+Instead of making the user login again and again whenever the app refreshes or open/close we can just store the token in long term mobile storage of that person's login device.
+
