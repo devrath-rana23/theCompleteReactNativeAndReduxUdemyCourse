@@ -11,6 +11,7 @@ import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import TrackListScreen from "./src/screens/TrackListScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
+import { Provider as LocationProvider } from "./src/context/LocationContext";
 
 // We will have two types of screens one type for authentication and other type is non authentication which are rest of the screen except login and signup therefore since login and signup represents different flow from rest of the screens so their initial letter is lowercase to showcase two different flows
 
@@ -34,8 +35,10 @@ const App = createAppContainer(switchNavigator);
 // setNavigator() is kind of hook called inside our component that allows us to navigate around
 export default () => {
   return (
-    <AuthProvider>
-      <App ref={(navigator) => setNavigator(navigator)} />
-    </AuthProvider>
+    <LocationProvider>
+      <AuthProvider>
+        <App ref={(navigator) => setNavigator(navigator)} />
+      </AuthProvider>
+    </LocationProvider>
   );
 };

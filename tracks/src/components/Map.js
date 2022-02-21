@@ -1,37 +1,45 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
+import { Text, StyleSheet, ActivityIndicator } from "react-native";
 // MapView is very similar to Image element with no height width attached to it by default
-import MapView, { Polyline } from "react-native-maps";
+import MapView, { Polyline, Circle } from "react-native-maps";
+import { Context as LocationContext } from "../context/LocationContext";
 
 // initialRegion prop decides which region in map it will show by default latitudeDelta decides zoom value on latitude
 // Polyline takes array of coordinates and show that as natural line in map
 
 const Map = () => {
-  let points = [];
-  for (let i = 0; i < 20; i++) {
-    if (i % 2 == 0) {
-      points.push({
-        latitude: 37.33233 + i * 0.001,
-        longitude: -122.03121 + i * 0.001,
-      });
-    } else {
-      points.push({
-        latitude: 37.33233 - i * 0.002,
-        longitude: -122.03121 + i * 0.001,
-      });
-    }
+  //Destructure off the state object
+
+  const {
+    state: { currentLocation },
+  } = useContext(LocationContext);
+
+  if (!currentLocation) {
+    return <ActivityIndicator size="large" style={{ marginTop: 200 }} />;
   }
+
+  const initialLocation = {
+    longitude: -122.0312186,
+    latitude: 37.33233141,
+  };
+
+  // region prop automatically centres our map to updated current location
+
   return (
     <MapView
       style={styles.map}
       initialRegion={{
-        latitude: 37.33233,
-        longitude: -122.03121,
+        ...initialLocation,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       }}
     >
-      <Polyline coordinates={points} />
+      <Circle
+        center={currentLocation.coords}
+        radius={30}
+        strokeColor="rgba(158, 158, 255, 1.0)"
+        fillColor="rgba(158, 158, 255, 0.3)"
+      />
     </MapView>
   );
 };
