@@ -1,44 +1,20 @@
 import "../_mockLocation";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text } from "react-native-elements";
 import Map from "../components/Map";
-import {
-  requestForegroundPermissionsAsync,
-  watchPositionAsync,
-  Accuracy,
-} from "expo-location";
+import { useLocation } from "../hooks/useLocation";
 import { Context as LocationContext } from "../context/LocationContext";
+import { withNavigationFocus } from "react-navigation";
 
-const TrackCreateScreen = () => {
+// Pass this prop in withNavigationFocus tell us whether or not this particular component is currently focused or actually visible
+const TrackCreateScreen = ({ isFocused }) => {
   const { addLocation } = useContext(LocationContext);
-  const [err, setErr] = useState(null);
+  //Now if we have a project where we need user's location changing over time we can just import useLocation Hook and paas a callback function inside it and get error when somthing goes wrong when we tried to ask for permission
+  const [err] = useLocation(addLocation);
 
-  const startWatching = async () => {
-    try {
-      const { granted } = await requestForegroundPermissionsAsync();
-      await watchPositionAsync(
-        {
-          accuracy: Accuracy.BestForNavigation,
-          timeInterval: 1000,
-          distanceInterval: 10,
-        },
-        (location) => {
-          addLocation(location);
-        }
-      );
-      if (!granted) {
-        throw new Error("Location permission not granted");
-      }
-    } catch (e) {
-      setErr(e);
-    }
-  };
-
-  useEffect(() => {
-    startWatching();
-  }, []);
+  console.log(isFocused); //gives true if this screen is focused
 
   return (
     <SafeAreaView>
@@ -51,4 +27,4 @@ const TrackCreateScreen = () => {
 
 const styles = StyleSheet.create({});
 
-export default TrackCreateScreen;
+export default withNavigationFocus(TrackCreateScreen);
