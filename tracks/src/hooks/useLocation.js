@@ -1,17 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { useState, useEffect } from "react";
 import {
   Accuracy,
-  requestPermissionAsync,
+  requestForegroundPermissionsAsync,
   watchPositionAsync,
 } from "expo-location";
 
-export default (callback) => {
+export default (shouldTrack, callback) => {
   const [err, setErr] = useState(null);
+  const [subscriber, setSubscriber] = useState(null);
+
   const startWatching = async () => {
     try {
       const { granted } = await requestForegroundPermissionsAsync();
-      await watchPositionAsync(
+      if (!granted) {
+        throw new Error("Location permission not granted");
+      }
+      const sub = await watchPositionAsync(
         {
           accuracy: Accuracy.BestForNavigation,
           timeInterval: 1000,
@@ -19,19 +23,20 @@ export default (callback) => {
         },
         callback
       );
-      if (!granted) {
-        throw new Error("Location permission not granted");
-      }
+      setSubscriber(sub);
     } catch (e) {
       setErr(e);
     }
   };
 
   useEffect(() => {
-    startWatching();
-  }, []);
+    if (shouldTrack) {
+      startWatching();
+    } else {
+      subscriber.remove();
+      setSubscriber(null);
+    }
+  }, [shouldTrack]);
 
   return [err]; //returning array is convention of hooks
 };
-
-const styles = StyleSheet.create({});
